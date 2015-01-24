@@ -37,11 +37,11 @@ if (!file.exists("./test/X_test.txt") |
 # load data to data frames add labels from the "features.txt" file
 
 features <- read.csv("features.txt", header = FALSE, sep = "", col.names = c("number", "variable"), stringsAsFactors = FALSE)
-test <- read.csv("./test/X_test.txt", header = FALSE, sep = "", col.names = as.character(features$variable), check.names = FALSE)
+test <- read.csv("./test/X_test.txt", header = FALSE, sep = "", col.names = as.character(features$variable))
 activities_test <- read.csv("./test/y_test.txt", header = FALSE, col.names = "activity_type")
 subjects_test <- read.csv("./test/subject_test.txt", header = FALSE, col.names = "subject")
 
-train <- read.csv("./train/X_train.txt", header = FALSE, sep = "", col.names = as.character(features$variable), check.names = FALSE)
+train <- read.csv("./train/X_train.txt", header = FALSE, sep = "", col.names = as.character(features$variable))
 activities_train <- read.csv("./train/y_train.txt", header = FALSE, col.names = "activity_type")
 subjects_train <- read.csv("./train/subject_train.txt", header = FALSE, col.names = "subject")
 
@@ -59,16 +59,23 @@ full_set <- rbind(comb_test, comb_train)
 #first create vector of all varaible names that contain "-mean" or "-std' but not meanFrequency and adds first two variables:
 #"subject" and "activity_type"
 
-list_of_variables <- c("subject", "activity_type", grep("(-mean|-std)" ,names(full_set), value = TRUE))
+list_of_variables <- c("subject", "activity_type", grep("\\.(mean|std)", names(full_set), value = TRUE))
 data_set <- subset(full_set, select = list_of_variables)
 
 # change activity numbers to descriptive names
 
-activity <- NULL
 for(idx in 1:nrow(activity_labels)){
-    data_set[idx,number] 
+    number <- activity_labels[idx,"number"]
+    activity <- activity_labels[number, "activity"]
+    data_set$activity_type <- sub(number,activity, data_set$activity_type)
 }
 
+# final subset: mean value of each variable grouped by subject and it's activity, 
 
-# final subset
+data <- group_by(data_set, subject, activity_type)
+final_set <- summarise_each(data, funs(mean))
+
+#save final_set into a file
+
+write.table(final_set, "final_set.txt",  row.name = FALSE)
 
