@@ -2,7 +2,8 @@
 
 ##Features description  
 **Final data set (final_set.txt) presents mean of each variable grouped by subjects and activities the subjects were performing**  
-The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise.  
+Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
 These signals were used to estimate variables of the feature vector for each pattern:  
 '-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
 "f" indicates data to which Fourier Transform (FFT) was applied, producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag.  
@@ -30,8 +31,10 @@ fBodyGyroJerkMag
 * mean(): Mean value  
 * std(): Standard deviation  
 
-**Features are normalized and bounded within [-1,1]**  
-##list of variables in final_set.txt:  
+**Variables are 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz**  
+**Variables were normalized and bounded within [-1,1]**  
+
+##List of variables in final_set.txt:  
 "subject" - one of 30 subjects, denoted as numerals  
 "activity_type" - one of six differen activities:  
 1. WALKING  
@@ -84,13 +87,3 @@ fBodyGyroJerkMag
 "fBodyAcc.mean...X"
 "fBodyAcc.mean...Y"
 
-##Analysis pipeline conducded by script run_analysis.R
-1. Load packages
-2. Chceck if all data files exist. Stop and return Error message if not.
-3. Load data to data frames, add labels from the "features.txt" file
-4. Add subject data and activity data as columns to test ant train datasets
-5. Merge test and train data seta
-6. Select only mean and std (standard deviation) variables
-7. Change activity numbers to descriptive names
-8. Create final subset: mean value of each variable grouped by subject and it's activity 
-9. Save final subset as space delimited file final_set.txt
